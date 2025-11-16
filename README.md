@@ -1,41 +1,147 @@
-# BNBPay
+#  BNBPay - Instant Payment Links on BNB Chain
 
-Receive cryptocurrency payments effortlessly. Zero complicated setup, zero hidden charges. Experience swift, protected, and dependable blockchain transactions.
+ BNBPay is the easiest way for merchants & creators to accept crypto payments with just a link, supporting one-time payments, subscriptions, and direct integration with online stores.
 
-## Run
-Please run the frontend and the bakckend in seperate process.
-Try running some of the following tasks:
+**Live Demo:** https://v0-bnb-theme-redesign.vercel.app  
+**Contracts:** [BscScan Testnet](https://testnet.bscscan.com/address/0x100D63C951d5c3f0EAc725a739a4e858F55ccf1b) [BscScan Testnet](https://testnet.bscscan.com/address/0x12c979f3B10c627909F722953839818DF4090F47)
 
-```shell
-npx hardhat help
-npx hardhat test
-REPORT_GAS=true npx hardhat test
-npx hardhat node
-npx hardhat ignition deploy ./ignition/modules/Lock.js
-```
+---
 
-## BNB-Pay Backend Services
+##  Why BNBPay?
 
-The backend lives under `backend/` and provides both the API server and a standalone cron service that keeps subscription data in sync with the blockchain.
+**Problem:** Traditional payments = High Platform fees + slow settlements  
+**Solution:** BNBPay = 0.5% fees + instant settlements on BNB Chain
 
-### API Server
+Merchants generate shareable payment links → Customers click & pay → Funds arrive instantly.
 
-```bash
-cd backend
-pnpm install # or npm install
-pnpm dev     # or npm run dev / npm start
-```
+---
 
-### Subscription Cron Service
+##  Features
 
-The cron service is completely independent from the API server so it can be supervised separately (e.g., by PM2, Docker, or systemd). It loads the same environment variables defined in `backend/.env`.
+-  **Payment Links:** Generate & share instantly
+-  **QR Codes:** Accept in-person payments
+-  **Multi-Token:** BNB, USDT, USDC support
+-  **Subscriptions:** Recurring payments on-chain
+-  **Instant Settlement:** Direct to your wallet
+-  **Transparent:** All txns on BscScan
 
-```bash
-cd backend
-node service/subscriptionCronService.js
-```
+---
 
-This process runs indefinitely and logs every time the cron check is executed. Stop it with `CTRL+C` or your process manager of choice.
+##  User Journey
+
+MERCHANT FLOW:
+Connect Wallet → Create Payment → Get Link/QR → Share → Receive Funds 
+
+CUSTOMER FLOW:
+Click Link → View Details → Connect Wallet → Pay → Done 
+
+text
+
+**Example Link:**
+https://bnbpay.vercel.app/send?to=0x742d...&amount=0.1&token=BNB&label=Coffee
+
+---
+
+##  Architecture
+    Customer                Smart Contract              Merchant
+       │                          │                        │
+       │─── Pay 100 USDT ────────▶│                        │
+       │                          │                        │
+       │                          │── Deduct 0.5% Fee     │
+       │                          │   (0.5 USDT)          │
+       │                          │                        │
+       │                          │── Transfer 99.5 USDT ─▶│
+       │                          │                        │
+       │◀── Confirmation ─────────│                        │
+       │                          │                        │
+       │                          │                        │
+    ✅ Done                    ✅ Done                  ✅ Paid
+
+
+**Key Innovation:** Payment data encoded in URL 
+
+---
+
+##  Smart Contracts
+
+| Contract | Address | Chain |
+|----------|---------|-------|
+| **PaymentProcessor** | `0x100D63C951d5c3f0EAc725a739a4e858F55ccf1b` | BNB Testnet (97) |
+| **SubscriptionManager** | `0x12c979f3B10c627909F722953839818DF4090F47` | BNB Testnet (97) |
+
+**Core Functions:**
+// Process BNB payment
+function processPayment(address to, string label, string memo) payable;
+
+// Process token payment
+function processTokenPayment(address to, address token, uint256 amount, string label, string memo);
+
+// Create subscription
+function createSubscription(address recipient, uint256 amount, uint256 days, address token) payable;
+
+
+---
+
+##  Tech Stack
+
+**Frontend:** Next.js 16, TypeScript, RainbowKit, Wagmi 2, Viem, Tailwind CSS  
+**Smart Contracts:** Solidity 0.8.28, Hardhat 2.22  
+**Backend:** Node.js, Express  
+**Deployment:** Vercel + BNB Testnet
+
+---
+
+##  Quick Start
+
+### Deploy Contracts:
+git clone https://github.com/yoavweber/bnbpay
+cd BNBPay
+npm install
+npx hardhat compile
+npx hardhat run scripts/deploy.js --network bscTestnet
+
+### Run Frontend:
+cd frontend
+npm install
+npm run dev
+
+Visit http://localhost:3000
+text
+
+### Environment Variables:
+.env.local
+NEXT_PUBLIC_PROCESSOR_ADDRESS=
+NEXT_PUBLIC_SUBSCRIPTION_ADDRESS=
+NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID=your_project_id
+
+text
+
+---
+
+
+
+##  Usage Example
+
+// Generate payment link
+const link = ${baseUrl}/send?to=${recipient}&amount=0.1&token=BNB&label=Coffee;
+
+// Customer pays via smart contract
+await processPayment(to, amount, label, memo);
+
+// Done! Instant settlement 
+
+---
+
+## 🎯 Roadmap
+
+- [x] Payment links & QR codes
+- [x] Multi-token support
+- [x] Subscriptions
+- [ ] Mainnet launch
+- [ ] Mobile app
+- [ ] Fiat on-ramp
+- [ ] Multi-chain support
+
 
 # BNB-Pay Images
 ### Main page
