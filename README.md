@@ -1,7 +1,9 @@
-# Sample Hardhat Project
+# BNBPay
 
-This project demonstrates a basic Hardhat use case. It comes with a sample contract, a test for that contract, and a Hardhat Ignition module that deploys that contract.
+Receive cryptocurrency payments effortlessly. Zero complicated setup, zero hidden charges. Experience swift, protected, and dependable blockchain transactions.
 
+## Run
+Please run the frontend and the bakckend in seperate process.
 Try running some of the following tasks:
 
 ```shell
@@ -35,4 +37,8 @@ node service/subscriptionCronService.js
 
 This process runs indefinitely and logs every time the cron check is executed. Stop it with `CTRL+C` or your process manager of choice.
 
-# BNB-Pay
+# BNB-Pay Images
+### Main page
+<img width="2910" height="1632" alt="image" src="https://github.com/user-attachments/assets/cc6fe03b-f0f8-415e-8ac7-37af9240b440" />
+
+
