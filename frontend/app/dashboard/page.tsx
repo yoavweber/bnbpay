@@ -24,7 +24,7 @@ const mockUsers = [
     id: 2,
     name: "Bob Smith",
     email: "bob@example.com",
-    wallet: "0x8a3b...9c1d",
+    wallet: "0x742d35Cc6634C0532925a3b844Bc454e4438f44e",
     subscriptions: 1,
     totalRevenue: "$150",
     status: "active"
@@ -33,7 +33,7 @@ const mockUsers = [
     id: 3,
     name: "Carol White",
     email: "carol@example.com",
-    wallet: "0x1f5e...2b8c",
+    wallet: "0x1F5E9a2B8C1F5E9A2b8C1f5e9A2B8C1F5e9a2B8c",
     subscriptions: 5,
     totalRevenue: "$890",
     status: "active"
@@ -42,7 +42,7 @@ const mockUsers = [
     id: 4,
     name: "David Lee",
     email: "david@example.com",
-    wallet: "0x9d2a...7e3f",
+    wallet: "0x9D2A7e3F9d2A7E3F9d2a7e3f9D2A7e3F9D2a7E3F",
     subscriptions: 2,
     totalRevenue: "$320",
     status: "inactive"

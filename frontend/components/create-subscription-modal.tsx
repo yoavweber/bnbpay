@@ -114,7 +114,7 @@ export function CreateSubscriptionModal({ isOpen, onClose, userName, recipientAd
           {/* Price Input */}
           <div>
             <Label htmlFor="price" className="mb-2 block text-sm font-medium text-white">
-              Price (USD)
+              Price BNB
             </Label>
             <div className="relative">
               <span className="absolute left-3 top-1/2 -translate-y-1/2 text-neutral-400">$</span>

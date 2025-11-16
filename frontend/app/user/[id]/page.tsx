@@ -39,7 +39,7 @@ const buildPaymentLink = (recipient: string, amount: string, label: string) => {
 // Mock data for user subscriptions
 const mockUserData: Record<string, UserRecord> = {
   "1": {
-    name: "Real user",
+    name: "Alice Johnson",
     email: "alice@example.com",
     wallet: "0xd25b8d0d4262ea3d22da769ba1648e40df6c347c",
     subscriptions: [
@@ -72,7 +72,7 @@ const mockUserData: Record<string, UserRecord> = {
   "2": {
     name: "Bob Smith",
     email: "bob@example.com",
-    wallet: "0x8a3b...9c1d",
+    wallet: "0x742d35Cc6634C0532925a3b844Bc454e4438f44e",
     subscriptions: [
       {
         id: 4,
@@ -87,7 +87,7 @@ const mockUserData: Record<string, UserRecord> = {
   "3": {
     name: "Carol White",
     email: "carol@example.com",
-    wallet: "0x1f5e...2b8c",
+    wallet: "0x1F5E9a2B8C1F5E9A2b8C1f5e9A2B8C1F5e9a2B8c",
     subscriptions: [
       {
         id: 5,
@@ -134,7 +134,7 @@ const mockUserData: Record<string, UserRecord> = {
   "4": {
     name: "David Lee",
     email: "david@example.com",
-    wallet: "0x9d2a...7e3f",
+    wallet: "0x9D2A7e3F9d2A7E3F9d2a7e3f9D2A7e3F9D2a7E3F",
     subscriptions: [
       {
         id: 10,
