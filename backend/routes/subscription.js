@@ -2,7 +2,7 @@
 const express = require('express');
 const router = express.Router();
 const { generateQRCode } = require('../utils/qrcode');
-const { getSubscriptionDetails } = require('../utils/blockchain');
+const { getSubscriptionDetails, createSubscription } = require('../utils/blockchain');
 const { CONTRACTS, BLOCKCHAIN_CONFIG, TOKENS } = require('../config/contracts');
 
 // In-memory storage
@@ -48,12 +48,34 @@ router.post('/create', async (req, res) => {
       status: 'pending',
       createdAt: new Date().toISOString(),
     };
+
+    // Create on-chain
+    const onChainResult = await createSubscription(
+      recipient,
+      amountPerPeriod,
+      intervalDays
+    );
+
+    if (!onChainResult.success) {
+      return res.status(500).json({
+        success: false,
+        error: 'Failed to create subscription on-chain',
+        details: onChainResult.error,
+      });
+    }
+
+    // Use the subscription ID from the blockchain event
+    const blockchainSubId = onChainResult.subscriptionId;
+    
+    subData.status = 'active';
+    subData.transactionHash = onChainResult.transactionHash;
+    subData.blockchainId = blockchainSubId; // Store the actual on-chain ID
     
     subscriptions.set(subId, subData);
     
-    // Generate link
-    const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:3000';
-    const subscriptionLink = `${frontendUrl}/subscribe/${subId}`;
+// Generate link
+const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:3000';
+const subscriptionLink = `${frontendUrl}/send?to=${recipient}&amount=${amountPerPeriod}&token=${token}&label=${encodeURIComponent(label)}`;
     
     // Generate QR
     const qrCode = await generateQRCode(subscriptionLink);
