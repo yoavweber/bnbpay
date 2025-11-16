@@ -52,8 +52,8 @@ This process runs indefinitely and logs every time the cron check is executed. S
 
 ### Client Link Page
 <img width="1467" height="773" alt="Screenshot 2025-11-16 at 12 03 27" src="https://github.com/user-attachments/assets/61b815ce-5076-498f-b1f6-ff53b8d1659e" />
+<img width="1467" height="773" alt="Screenshot 2025-11-16 at 12 03 45" src="https://github.com/user-attachments/assets/571d6cac-1944-4c84-998c-392f301f7166" />
 
 
 ### Payment Confirmation
-<img width="856" height="622" alt="Screenshot 2025-11-16 at 12 01 02" src="https://github.com/user-attachments/assets/1dc69a61-2d37-4f0b-beb7-92e1d9827a33" />
-<img width="1467" height="773" alt="Screenshot 2025-11-16 at 12 03 45" src="https://github.com/user-attachments/assets/571d6cac-1944-4c84-998c-392f301f7166" />
+<img width="1467" height="773" alt="Screenshot 2025-11-16 at 12 01 02" src="https://github.com/user-attachments/assets/1dc69a61-2d37-4f0b-beb7-92e1d9827a33" />
