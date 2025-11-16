@@ -1,9 +1,11 @@
 // utils/blockchain.js
 const { ethers } = require('ethers');
 const { CONTRACTS, PROCESSOR_ABI, SUBSCRIPTION_ABI, BLOCKCHAIN_CONFIG } = require('../config/contracts');
+require('dotenv').config();
 
-// Initialize provider
+// Initialize provider and signer
 const provider = new ethers.providers.JsonRpcProvider(BLOCKCHAIN_CONFIG.rpcUrl);
+const signer = new ethers.Wallet(process.env.PRIVATE_KEY, provider);
 
 /**
  * Get Payment Processor contract (read-only)
@@ -17,6 +19,13 @@ function getProcessorContract() {
  */
 function getSubscriptionContract() {
   return new ethers.Contract(CONTRACTS.subscriptionManager, SUBSCRIPTION_ABI, provider);
+}
+
+/**
+ * Get Subscription Manager contract (with signer for transactions)
+ */
+function getSubscriptionContractWithSigner() {
+  return new ethers.Contract(CONTRACTS.subscriptionManager, SUBSCRIPTION_ABI, signer);
 }
 
 /**
@@ -94,10 +103,56 @@ async function verifyTransaction(txHash) {
   }
 }
 
+/**
+ * Create a new subscription on the blockchain
+ */
+async function createSubscription(recipient, amountPerPeriod, intervalDays) {
+  try {
+    const contract = getSubscriptionContractWithSigner();
+    const amountInWei = ethers.utils.parseEther(amountPerPeriod.toString());
+    
+    console.log(`Creating subscription on-chain:`);
+    console.log(`  Recipient: ${recipient}`);
+    console.log(`  Amount: ${amountPerPeriod} BNB`);
+    console.log(`  Interval: ${intervalDays} days`);
+    
+    // For BNB subscriptions, send the first payment with the transaction
+    const tx = await contract.createSubscription(
+      recipient,
+      amountInWei,
+      intervalDays,
+      ethers.constants.AddressZero, // address(0) for BNB
+      { value: amountInWei } // Send first payment
+    );
+    
+    const receipt = await tx.wait();
+    console.log('✅ Subscription created successfully!');
+    console.log('   Tx hash:', tx.hash);
+    
+    // Extract subscription ID from events
+    const event = receipt.events?.find(e => e.event === 'SubscriptionCreated');
+    const subscriptionId = event?.args?.subscriptionId;
+    
+    return {
+      success: true,
+      transactionHash: tx.hash,
+      subscriptionId: subscriptionId
+    };
+  } catch (error) {
+    console.error('❌ Error creating subscription on-chain:', error);
+    return {
+      success: false,
+      error: error.message
+    };
+  }
+}
+
 module.exports = {
   getProcessorContract,
   getSubscriptionContract,
+  getSubscriptionContractWithSigner,
   getPaymentDetails,
   getSubscriptionDetails,
+  createSubscription,
   verifyTransaction,
 };
